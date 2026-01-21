@@ -5,9 +5,9 @@
   },
   "assets": [],
   "build": {
-    "build_id": "EE95AF5F-9",
-    "build_number": 9,
-    "build_time": 1768977393921,
+    "build_id": "BAA36FE2-16",
+    "build_number": 16,
+    "build_time": 1768993168432,
     "release": false
   },
   "encryptLevel": 3,
@@ -32,10 +32,16 @@
   "packageName": "Azek.opencv.toolbox",
   "permissionConfig": {
     "manifestPermissions": [
-      "android.permission.SYSTEM_ALERT_WINDOW"
+      "android.permission.SYSTEM_ALERT_WINDOW",
+      "android.permission.READ_EXTERNAL_STORAGE",
+      "android.permission.WRITE_EXTERNAL_STORAGE",
+      "android.permission.INTERNET"
     ],
     "requestListOnStartup": [
-      "android.permission.SYSTEM_ALERT_WINDOW"
+      "android.permission.SYSTEM_ALERT_WINDOW",
+      "android.permission.READ_EXTERNAL_STORAGE",
+      "android.permission.WRITE_EXTERNAL_STORAGE",
+      "android.permission.INTERNET"
     ]
   },
   "publish": {

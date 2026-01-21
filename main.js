@@ -180,18 +180,18 @@ function setImgIndexNum(num, other) {
         other = {};
 
     }
-    
+
     if (other["storage"] == undefined) {
         other["storage"] = false;
 
     }
     if (other["show"] == undefined) {
         other["show"] = true;
-        
+
     }
-    
+
     imgIndex = Number(num);
-    
+
     // 保存
     let img = getImgIndex(num);
     setImgValue(img, other)
@@ -331,6 +331,7 @@ function uriToFile(uri) {
     } else if (uri.getScheme().equalsIgnoreCase("file")) {
         return String(uri.getPath());
     }
+    
     return null;
 }
 
