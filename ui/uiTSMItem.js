@@ -67,23 +67,23 @@ function getMenuItemList() {
     let ksizeOddNum = {
         "ksize": {
             "value": 3,
-            "valueFrom": 0,
+            "valueFrom": 1,
             "valueTo": 103,
-            "stepSize": 1
+            "stepSize": 2
 
         },
         "ksizeX": {
             "value": 0,
             "valueFrom": 0,
             "valueTo": 100,
-            "stepSize": 1
+            "stepSize": 2
 
         },
         "ksizeY": {
             "value": 0,
             "valueFrom": 0,
             "valueTo": 100,
-            "stepSize": 1
+            "stepSize": 2
 
         }
 
