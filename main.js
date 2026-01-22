@@ -105,8 +105,15 @@ if (autoConfirm == undefined) {
 // 图片更改间隔 ( 2026-1-19 12:01 16 新增)
 var imgChangeInterval = storage.get("imgChangeInterval");
 if (imgChangeInterval == undefined) {
-    imgChangeInterval = 31;
+    imgChangeInterval = 0; // -- 2026-1-21 22:57 28 更改初始值为 0, 曾前值: 31
 
+}
+
+// 数值调节固定位数 -- 2026-1-21 22:53 41 新增, 明天就要去上学了😞
+var valueFixedNum = storage.get("valueFixedNum");
+if (valueFixedNum == undefined) {
+    valueFixedNum = 5;
+    
 }
 
 

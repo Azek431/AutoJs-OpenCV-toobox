@@ -5,9 +5,9 @@
   },
   "assets": [],
   "build": {
-    "build_id": "BAA36FE2-16",
-    "build_number": 16,
-    "build_time": 1768993168432,
+    "build_id": "542BEB42-17",
+    "build_number": 17,
+    "build_time": 1769095344957,
     "release": false
   },
   "encryptLevel": 3,
@@ -63,6 +63,6 @@
     "uuid": "e5305614-90a8-47f9-a949-6d03c09533f6"
   },
   "useFeatures": [],
-  "versionCode": 0,
-  "versionName": "1.0.0"
+  "versionCode": 1,
+  "versionName": "1.0.1"
 }
