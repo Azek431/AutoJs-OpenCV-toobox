@@ -11,6 +11,9 @@ Pro 9.3.11
 const initClass = require("./initClass.js");
 initClass.init();
 
+// 内存泄漏检测
+$debug.setMemoryLeakDetectionEnabled(false);
+
 
 // ui
 let androidx = Packages.androidx;
@@ -35,12 +38,32 @@ var initImgSrc = "./src/apple.jpg";
 // 创建缓存文件夹
 files.create("./temp/");
 
+// 图片另存路径
+var initImgSaveAsPath = storage.get("initImgSaveAsPath");
+if (!initImgSaveAsPath) {
+    initImgSaveAsPath = "/storage/emulated/0/Pictures/OpenCV-工具箱/"
 
-var currentImgPath = "./temp/当前图片.jpg";
+}
+
+// 当前图片赋值
+var currentImgName = "当前图片"
+var currentImgPath = `./temp/${currentImgName}.jpg`;
+var sdCurrentImgPath = `${initImgSaveAsPath}${currentImgName}.jpg`
 var img = images.read(currentImgPath);
 if (!img) {
-    img = initImg();
+    let sdImg = images.read(storage.get("sdCurrentImgPath"));
 
+    if (sdImg) {
+        img = sdImg;
+        
+    } else {
+        img = initImg();
+        
+    }
+    
+    // 保存图片
+    images.save(img, currentImgPath, "jpg", 100);
+    
 }
 
 // bitmap 图片
@@ -56,7 +79,8 @@ var currentShowImgPath = "./temp/当前显示图片.jpg";
 // 当前选择图片
 var currentSelectImgPath = "./temp/当前选择图片.jpg";
 setImgValue(img, {
-    "select": true
+    "select": true,
+    "storage": true
 });
 
 // 图片路径
@@ -69,12 +93,6 @@ if (!imgPath) {
 }
 ui.imgPathText.setText(imgPath);
 
-// 图片另存路径
-var initImgSaveAsPath = storage.get("initImgSaveAsPath");
-if (!initImgSaveAsPath) {
-    initImgSaveAsPath = "/storage/emulated/0/Pictures/OpenCV-工具箱/"
-
-}
 
 // 图片显示旋转
 var imgShowRotate = 0;
@@ -113,7 +131,7 @@ if (imgChangeInterval == undefined) {
 var valueFixedNum = storage.get("valueFixedNum");
 if (valueFixedNum == undefined) {
     valueFixedNum = 5;
-    
+
 }
 
 
@@ -140,6 +158,34 @@ toast = function(message) {
 toast.dismiss = function() {
     toastA.cancel();
 
+}
+
+// 随机模块
+function random(minNum, maxNum) {
+    if (!maxNum) {
+        return Math.random();
+    }
+
+    let num = Math.random() * (maxNum - minNum) + minNum;
+    if (isFloat(minNum) | isFloat(maxNum)) {
+        return num;
+    } else {
+        return parseInt(num, 10);
+    }
+
+
+}
+
+// 随机选择列表中的一个元素
+random.choice = function(list) {
+    return list[random(0, list.length - 1)];
+}
+
+
+
+// 判断数值是否是浮点数
+function isFloat(num) {
+    return num === +num && num !== (num | 0)
 }
 
 
@@ -173,7 +219,7 @@ function setImgListMaxNum(num) {
 // 以图片索引获取图片 --2026-1-20 17:26 12 新增。又停课了一天，已经停课三天了，好开心呀😊
 function getImgIndex(num) {
     if (num >= 0 && num <= imgList.length) {
-        return imgList[imgIndex];
+        return imgList[num]; // 传奇bug: 索引搞成了 imgIndex, 正确应该是 num (输入的值)  -- 2026-1-24 13:00 08 修复
     }
     if (num == -1) {
         // 恢复
@@ -338,14 +384,14 @@ function uriToFile(uri) {
     } else if (uri.getScheme().equalsIgnoreCase("file")) {
         return String(uri.getPath());
     }
-    
+
     return null;
 }
 
 
 
 // 字典
-function ObjDict() {};
+function ObjDict() {}
 
 // 字典 value 索引访问
 ObjDict.getIndexAt = function(dict, index) {
@@ -361,7 +407,7 @@ ObjDict.getKeyAt = function(dict, index) {
 
 
 // 流水布局
-function flowLayout() {};
+function flowLayout() {}
 
 // 获取子控件数量
 flowLayout.getChildCount = function(view) {
