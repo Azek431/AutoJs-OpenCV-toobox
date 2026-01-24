@@ -1,7 +1,7 @@
-function cvProc(procCode, data, other) {
+function cvProc(procType, data, other) {
     // 索引列表
-    let procList = procCode.split("_");
-
+    let procList = procType.split("_");
+    
     // OpenCV Mat对象
     let img = images.read(currentSelectImgPath);
     let imgMat = img.getMat();
@@ -84,7 +84,6 @@ function cvProc(procCode, data, other) {
                         case "INTER_MAX":
                             // 目前没什么用处
                             Imgproc.resize(imgMat, imgMat, size, fx, fy, Imgproc.INTER_MAX);
-                            break;
 
                     }
             }
@@ -276,7 +275,7 @@ function cvProc(procCode, data, other) {
 
             // 绘制轮廓
             if (procList[1] == "draw") {
-                // Imgproc.findContours(imgMat, contours, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_NONE);
+                Imgproc.findContours(imgMat, contours, hierarchy, Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_NONE);
 
                 switch (procList[2]) {
                     // 绘制所有线条
@@ -347,7 +346,6 @@ function cvProc(procCode, data, other) {
                 let areaArr = [];
                 for (var i = 0; i < contours.size(); i++) {
                     var ii = contours.get(i);
-
                     var len = ii.size();
                     // 提取轮廓坐标
                     for (var w = 0; w < len.width; w++) {
@@ -385,7 +383,7 @@ function cvProc(procCode, data, other) {
 
 var scecifiedNumCvProcThread;
 
-function scecifiedNumCvProc(procCode, procData, number, delay, other) {
+function scecifiedNumCvProc(procType, procData, number, delay, other) {
     // 赋值其他
     if (!other) {
         other = {};
@@ -398,7 +396,7 @@ function scecifiedNumCvProc(procCode, procData, number, delay, other) {
             sleep(delay);
 
             try {
-                cvProc(procCode, null, other);
+                cvProc(procType, null, other);
 
             } catch (e) {
                 /* null */
@@ -406,11 +404,11 @@ function scecifiedNumCvProc(procCode, procData, number, delay, other) {
             }
 
             if (other["toast"] == true) {
-                toast(`处理成功 (${i}): ${procCode}`);
+                toast(`处理成功 (${i}): ${procType}`);
 
             }
 
-        };
+        }
 
         return true;
     });
