@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:title="OpenCV-工具箱"
+        android:titleTextColor="#000000">
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#6200EE"
+                app:strokeWidth="2dp"
+                app:contentPadding="5dp"
+                margin="10 10 10 10">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:text="文件管理"
+                        margin="0 10 0 0" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/selectImg"
+                            android:text="选择文件"
+                            android:layout_weight="1" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/saveImg"
+                            android:text="保存"
+                            android:layout_weight="1"
+                            margin="5 0 0 0" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/imgSaveAs"
+                            android:text="另存为"
+                            android:layout_weight="1"
+                            margin="5 0 0 0" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/useInitImg"
+                            android:text="内置图片"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/scaleText"
+                            android:text="缩放: 0.8"
+                            margin="0 10 0 0" />
+
+                        <com.google.android.material.slider.Slider
+                            android:id="@+id/scaleSlider"
+                            android:stepSize="0.01"
+                            android:valueFrom="0.01"
+                            android:valueTo="1.00"
+                            android:value="0.80"
+                            android:layout_width="314dp" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="30dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#6200EE"
+                app:strokeWidth="1dp"
+                app:contentPadding="5dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/imgUriText"
+                        android:text="./src/apple.jpg"
+                        margin="10 5 0 0" />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/imgPathText"
+                        android:text="./src/apple.jpg"
+                        margin="10 5 0 5" />
+
+                    <canvas
+                        android:id="@+id/canvas"
+                        android:layout_width="match_parent"
+                        android:layout_height="350dp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="0dp"
+                app:strokeColor="#6200EE"
+                app:strokeWidth="2dp"
+                app:contentPadding="5dp"
+                margin="10 10 10 300">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:text="文件管理"
+                        margin="0 10 0 0" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/imgRecov"
+                            android:text="恢复"
+                            android:layout_weight="1"
+                            app:cornerRadius="16dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/lastImg"
+                            android:text="撤销"
+                            android:layout_weight="1"
+                            android:enabled="false"
+                            app:icon="@drawable/ic_undo_black_48dp"
+                            app:cornerRadius="16dp"
+                            margin="5 0 0 0" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/nextImg"
+                            android:text="重做"
+                            android:layout_weight="1"
+                            android:enabled="false"
+                            app:icon="@drawable/ic_redo_black_48dp"
+                            app:cornerRadius="16dp"
+                            margin="5 0 0 0" />
+
+                    </LinearLayout>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/imgIndexText"
+                        android:text="1 / 1" />
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/imgIndexSlider"
+                        android:stepSize="1"
+                        android:valueFrom="0"
+                        android:valueTo="1"
+                        android:value="1"
+                        android:layout_width="314dp"
+                        android:layout_gravity = "center"
+                        margin = "-5 -5 0 0"
+                        />
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:text="图像处理"
+                        margin="0 10 0 0" />
+
+                    <LinearLayout
+                        android:id="@+id/imgProcTypeSelectMainLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/imgProcTypeSelectLayout"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/imgProcTypeSelectRootMenu"
+                                android:text="无"
+                                android:layout_row="0"
+                                android:layout_column="0"
+                                android:layout_rowSpan="1"
+                                android:layout_columnSpan="1"
+                                margin="0 0 10 0" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
