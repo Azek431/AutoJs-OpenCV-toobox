@@ -269,21 +269,21 @@ function getMenuItemList() {
                             "value": 7, 
                             "valueFrom": 1, 
                             "valueTo": 100, 
-                            "setpSize": 1
+                            "stepSize": 1
                             
                         }, 
                         "sigmaColor": {
                             "value": 75, 
                             "valueFrom": 1, 
                             "valueTo": 200, 
-                            "setpSize": 1
+                            "stepSize": 1
                             
                         }, 
                         "sigmaSpace": {
                             "value": 75, 
                             "valueFrom": 1, 
                             "valueTo": 200, 
-                            "setpSize": 1
+                            "stepSize": 1
                             
                         }
                         

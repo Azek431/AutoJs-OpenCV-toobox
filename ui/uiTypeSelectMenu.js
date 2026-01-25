@@ -15,7 +15,7 @@ ui.imgProcTypeSelectRootMenu.setOnLongClickListener(function(view) {
 })
 
 
-function imgProcTypeSelectRootMenu() {};
+function imgProcTypeSelectRootMenu() {}
 // 图片处理类型选择根菜单被点击
 imgProcTypeSelectRootMenu.click = function(view, indexDictList) {
     // 弹出菜单
@@ -26,7 +26,7 @@ imgProcTypeSelectRootMenu.click = function(view, indexDictList) {
     if (!menuDict) {
         menuDict = uiTSMItem.getMenuItemList();
 
-    };
+    }
 
     let menuList = Object.keys(menuDict);
 

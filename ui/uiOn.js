@@ -6,10 +6,10 @@ function canvasOn(canvas) {
     canvas.on("draw", function(canvas) {
         // 画板是否启动刷新
         if (!canvasRefreshBoor) {
-            
+
             return true;
         }
-        
+
         canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
         canvas.drawARGB(255, 255, 255, 255);
 
@@ -26,7 +26,7 @@ function canvasOn(canvas) {
         ui.canvas.attr("scaleY", imgShowScale);
 
         canvas.drawBitmap(bitmapImg, matrix, paintImg);
-        
+
         return true;
     })
 
@@ -89,12 +89,15 @@ activity.getEventEmitter().on("activity_result", (requestCode, resultCode, data)
 
         // bitmapImg
         let cr = context.getContentResolver();
-        setBitmapImg(BitmapFactory.decodeStream(cr.openInputStream(imgUri)), {"storage": true, "select": true});
+        setBitmapImg(BitmapFactory.decodeStream(cr.openInputStream(imgUri)), {
+            "storage": true,
+            "select": true
+        });
 
         // 文件路径
         imgPath = uriToFile(imgUri);
         ui.imgPathText.setText(imgPath);
-        
+
     } catch (e) {
         console.error(e)
 
@@ -105,12 +108,18 @@ activity.getEventEmitter().on("activity_result", (requestCode, resultCode, data)
 
 
 // 保存图片
-ui.saveImg.on("click", function() {
+ui.saveImg.on("click", function(view) {
     let img = ImageWrapper.ofBitmap(bitmapImg);
     let src = currentImgPath;
 
+    // 保存
     images.save(img, src, "jpg", 100);
 
+    // 另存 ( 软件更新时使用, 不然软件更新当天选择的图片就会重置 ) -- 2026-1-24 21:43 27 新增 得等到2月份才能放假😭
+    images.save(img, sdCurrentImgPath, "jpg", 100);
+    storage.put("sdCurrentImgPath", sdCurrentImgPath);
+    
+    // 储存
     storage.put("imgUri", imgUri);
     storage.put("imgPath", imgPath);
 
@@ -168,12 +177,11 @@ ui.imgSaveAs.on("click", function() {
             quality = Number(qualityLayout.InputEditText.getText());
 
         }
-        
+
         // 创建文件夹
         files.create(initImgSaveAsPath)
-        
         path = `${initImgSaveAsPath}${name}.${format}`
-        
+
         images.save(img, path, format, quality);
         toast(`已成功保存到: ${path}`);
 
@@ -208,18 +216,28 @@ ui.imgSaveAs.on("click", function() {
 
 })
 
-// 使用初始图片
+// 使用内置图片
 ui.useInitImg.on("click", function() {
-    setImgValue(initImg(), {"storage": true, "select": true});
-
-    imgPath = initImgSrc;
+    let dir = "./src/"
+    imgPath = dir + random.choice(files.listDir(dir));
     ui.imgPathText.setText(imgPath);
 
-    toast("成功使用初始图片: " + initImgSrc);
+    let img = images.read(imgPath);
+    setImgValue(img, {
+        "storage": true,
+        "select": true
+
+    });
+
+    // 信息提示框
+    toast("成功使用初始图片: " + imgPath);
 })
 
+
+
 // 设置图片另存位置
-ui.setImgSaveAsPath.on("click", function() {
+// 原按钮 (setImgSaveAsPath) 换为 另存为 长按 -- 2026-1-24 13:06 21
+ui.imgSaveAs.setOnLongClickListener(function(view) {
     let DiaLogLayout = ui.inflate(files.read("res/layout/activity_Dialog_imgSaveAsSet.xml"));
 
     DiaLogLayout.inputText.attr("hint", initImgSaveAsPath);
@@ -244,9 +262,14 @@ ui.setImgSaveAsPath.on("click", function() {
                     path = path + "/";
 
                 }
-
+                
+                // 另存路径
                 initImgSaveAsPath = path;
                 storage.put("initImgSaveAsPath", initImgSaveAsPath);
+
+                // sd卡当前图片另存图片路径
+                sdCurrentImgPath = `${initImgSaveAsPath}${currentImgName}.jpg`
+
                 toast("设置成功: " + initImgSaveAsPath);
 
             }
@@ -262,13 +285,17 @@ ui.setImgSaveAsPath.on("click", function() {
         .setNeutralButton("默认", function() {
             initImgSaveAsPath = "/storage/emulated/0/Pictures/OpenCV-工具箱/";
             storage.put("initImgSaveAsPath", initImgSaveAsPath);
+            // sd卡当前图片另存图片路径
+
+            sdCurrentImgPath = `${initImgSaveAsPath}${currentImgName}.jpg`
 
             toast("已成功恢复默认: " + initImgSaveAsPath);
 
         })
         .show();
 
-
+    // 返回
+    return true;
 })
 
 
@@ -311,9 +338,9 @@ ui.lastImg.on("click", function(view) {
 
     }
     setImgValue(imgList[imgIndex], {
-            "storage": false, 
-            "show": true
-        });
+        "storage": false,
+        "show": true
+    });
 
     setImgIndexText(imgIndex, imgList);
 
@@ -329,7 +356,7 @@ ui.nextImg.on("click", function(view) {
     // 判断为最后
     if (imgIndex < imgList.length - 1) {
         imgIndex += 1;
-        
+
     } else {
         // 设置当前为不可点击
         imgIndex = imgList.length - 1;
@@ -337,9 +364,9 @@ ui.nextImg.on("click", function(view) {
 
     }
     setImgValue(imgList[imgIndex], {
-            "storage": false, 
-            "show": true
-        });
+        "storage": false,
+        "show": true
+    });
 
     setImgIndexText(imgIndex, imgList);
 
@@ -352,7 +379,10 @@ ui.imgRecov.setOnLongClickListener(function(view) {
 
     // 清空图片列表
     setImgList([img]);
-    setImgIndexNum(0, {"select": true, "show": true});
+    setImgIndexNum(0, {
+        "select": true,
+        "show": true
+    });
     setImgIndexText(imgIndex, imgList);
 
     return true;
@@ -404,7 +434,9 @@ ui.imgIndexText.on("click", function(view) {
             let numText = DialogLayout.InputEditText.getText();
 
             if (numText != "") {
-                setImgIndexNum(Number(numText) - 1, {"select": true});
+                setImgIndexNum(Number(numText) - 1, {
+                    "select": true
+                });
                 setImgIndexText(imgIndex, imgList);
 
             }
@@ -489,7 +521,9 @@ ui.scaleSlider.addOnChangeListener({
 ui.imgIndexSlider.addOnChangeListener({
     onValueChange: (view, value, fromUser) => {
         // 赋值
-        setImgIndexNum(value - 1, {"storage": false});
+        setImgIndexNum(value - 1, {
+            "storage": false
+        });
         setImgIndexText(imgIndex, imgList);
 
         // 撤销、重置 按钮可点击设置
@@ -527,7 +561,10 @@ ui.imgIndexSlider.addOnSliderTouchListener({
     // 滑动结束
     onStopTrackingTouch: function(view) {
         // 赋值
-        setImgIndexNum(view.getValue() - 1, {"select": true, "show": true});
+        setImgIndexNum(view.getValue() - 1, {
+            "select": true,
+            "show": true
+        });
         setImgIndexText(imgIndex, imgList);
 
 
@@ -550,4 +587,3 @@ ui.imgPathText.setOnLongClickListener(function(view) {
 
     return true;
 })
-
