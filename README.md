@@ -141,7 +141,8 @@ AutoJs-OpenCV-toobox/
 ---
 ## 👨‍💻 作者
 
-- **Email**: Acd_713@163.com
+- **Email**: Azek431@163.com
+- **QQ**: 2982154038
 
 ---
 
